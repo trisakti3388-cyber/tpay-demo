@@ -1,0 +1,19 @@
+{
+  "name": "tpay-demo",
+  "version": "1.0.0",
+  "description": "Production-ready balance monitoring script using OpenClaw browser and messaging commands",
+  "main": "src/index.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node src/index.js",
+    "monitor": "node src/index.js",
+    "check": "node src/index.js"
+  },
+  "keywords": [
+    "openclaw",
+    "monitoring",
+    "balance",
+    "alerts"
+  ],
+  "license": "MIT"
+}

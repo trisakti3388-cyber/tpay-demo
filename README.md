@@ -1,38 +1,73 @@
 # tpay-demo
 
-A small balance-monitoring script for checking a user balance from an OpenClaw-controlled browser tab and sending an alert when it crosses a threshold.
+Production-ready Node.js balance monitor for an OpenClaw-controlled browser workflow.
 
-## What it does
+## Features
 
-- Focuses a target browser tab
-- Captures a browser snapshot
-- Parses the balance for a configured username
-- Stores previous state locally
-- Sends an alert when the balance crosses above or back below the threshold
+- Configurable via `.env`
+- Modular `src/` layout
+- Local state persistence
+- Threshold crossing alerts
+- Basic structured logging
+- Simple shell runner for cron/manual use
 
-## Requirements
+## Project structure
 
-- Node.js
-- OpenClaw CLI available in PATH
-- A connected browser profile/tab that contains the target page
-- A messaging target configured for alerts
+```text
+.
+├── .env.example
+├── .gitignore
+├── package.json
+├── README.md
+├── scripts/
+│   └── run-monitor.sh
+├── src/
+│   ├── balance.js
+│   ├── config.js
+│   ├── index.js
+│   ├── logger.js
+│   ├── openclaw.js
+│   └── state.js
+└── state/
+```
 
-## Configuration
+## Setup
 
-Set these values in the script before use:
-
-- `USERNAME`
-- `THRESHOLD`
-- `TARGET_TAB`
-- `ALERT_CHANNEL`
-- `ALERT_TARGET`
-
-## Run
+1. Copy `.env.example` to `.env`
+2. Fill in your real values
+3. Run the monitor
 
 ```bash
-node balance-monitor.js
+cp .env.example .env
+npm run monitor
 ```
+
+## Environment variables
+
+- `USERNAME` - Username to match in browser snapshot output
+- `THRESHOLD` - Numeric alert threshold
+- `TARGET_TAB` - OpenClaw/Chrome target tab id
+- `ALERT_CHANNEL` - Messaging channel, for example `telegram`
+- `ALERT_TARGET` - Destination target, for example `@your_bot`
+- `STATE_PATH` - Path for saved state file
+
+## Run options
+
+```bash
+npm run monitor
+# or
+./scripts/run-monitor.sh
+```
+
+## How alerts work
+
+The script sends a message only when the balance crosses the threshold:
+
+- below -> above threshold = alert
+- above -> below/equal threshold = recovery
 
 ## Notes
 
-This repo intentionally excludes local state files and private environment-specific identifiers.
+- `state/` is ignored by Git
+- `.env` is ignored by Git
+- Replace the example config values before production use
